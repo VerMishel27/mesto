@@ -20,78 +20,80 @@
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <p class="profile__description">Исследователь океана</p>
           </div>
-          <button class="profile__edit-button">
+          <button class="profile__edit-button" type="button">
           </button>
         </div>
-        <button class="profile__add-button">
+        <button class="profile__add-button" type="button">
         </button>
-        <div class="popup">
-          <div class="popup__container">
-            <button class="popup__close">
-              <img src="./images/Close Icon.png" alt="Закрыть" class="popup__close-icon">
-            </button>
-            <form class="popup__form" method="post">
-              <h2 class="popup__title">Редактировать профиль</h2>
-              <label for="" class="popup__label">
-                <input type="text" class="popup__field popup__name" name="name" value="">
-              </label>
-              <label for="" class="popup__label">
-                <input type="text" class="popup__field popup__job" name="job" value="">
-              </label>
-              <button class="popup__submit-button" type="submit" onclick="">Сохранить</button>
-            </form>
-          </div>
-        </div>
       </section>
       <section class="elements">
-        <section class="element">
+        <article class="element">
           <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="element__mask-group">
           <div class="element__description">
-            <p class="element__title">Карачаевск</p>
-            <div class="like"></div>
+            <h3 class="element__title">Карачаевск</h3>
+            <button class="element__like" type="button"></button>
           </div>
-        </section>
-        <section class="element">
+        </article>
+        <article class="element">
           <img src="./images/gora-elbrus.jpg" alt="Гора Эльбрус" class="element__mask-group">
           <div class="element__description">
-            <p class="element__title">Гора Эльбрус</p>
-            <div class="like"></div>
+            <h3 class="element__title">Гора Эльбрус</h3>
+            <button class="element__like" type="button"></button>
           </div>
-        </section>
-        <section class="element">
+        </article>
+        <article class="element">
           <img src="./images/dombai.jpg" alt="Домбай" class="element__mask-group">
           <div class="element__description">
-            <p class="element__title">Домбай</p>
-            <div class="like"></div>
+            <h3 class="element__title">Домбай</h3>
+            <button class="element__like" type="button"></button>
           </div>
-        </section>
-        <section class="element">
+        </article>
+        <article class="element">
           <img src="./images/gora-elbrus.jpg" alt="Гора Эльбрус" class="element__mask-group">
           <div class="element__description">
-            <p class="element__title">Гора Эльбрус</p>
-            <div class="like"></div>
+            <h3 class="element__title">Гора Эльбрус</h3>
+            <button class="element__like" type="button"></button>
           </div>
-        </section>
-        <section class="element">
+        </article>
+        <article class="element">
           <img src="./images/dombai.jpg" alt="Домбай" class="element__mask-group">
           <div class="element__description">
-            <p class="element__title">Домбай</p>
-            <div class="like"></div>
+            <h3 class="element__title">Домбай</h3>
+            <button class="element__like" type="button"></button>
           </div>
-        </section>
-        <section class="element">
+        </article>
+        <article class="element">
           <img src="./images/karachaevsk.jpg" alt="Карачаево-Черкесия" class="element__mask-group">
           <div class="element__description">
-            <p class="element__title">Карачаево-Черкесия</p>
-            <div class="like"></div>
+            <h3 class="element__title">Карачаево-Черкесия</h3>
+            <button class="element__like" type="button"></button>
           </div>
-        </section>
+        </article>
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">&copy; 2023 Михаил Бубнов</p>
     </footer>
   </div>
-  <script src="./index.js"></script>
+  <div class="popup">
+    <div class="popup__container">
+      <button class="popup__close" type="button">
+        <svg class="popup__close-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 28.8L19.2 16L32 3.2L28.8 0L16 12.8L3.2 0L0 3.2L12.8 16L0 28.8L3.2 32L16 19.2L28.8 32L32 28.8Z" fill="white"/>
+        </svg>
+      </button>
+      <form class="popup__form" method="post" name="changing-profile">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <label for="" class="popup__label">
+          <input type="text" class="popup__field" id="fieldName" name="name" value="">
+        </label>
+        <label for="" class="popup__label">
+          <input type="text" class="popup__field" id="fieldJob" name="job" value="">
+        </label>
+        <button class="popup__submit-button" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
