@@ -1,0 +1,8 @@
+.element__mask-group {
+    display: block;
+    max-width: 282px;
+    min-height: 282px;
+    object-fit: contain;
+    /* border-color: #C4C4C4; */
+    border-radius: 10px 10px 0px 0px;
+}
