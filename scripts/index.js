@@ -1,6 +1,6 @@
 const buttonOpenEdit = document.querySelector('.profile__edit-button');
 const profilePopup = document.querySelector('#popupProfile');
-const buttonClosePopup = document.querySelectorAll('.popup__close');
+const buttonsClosePopup = document.querySelectorAll('.popup__close'); // находим все крестики проекта по универсальному селектору
 
 const profile = document.querySelector('.profile');
 const profileName = profile.querySelector('.profile__name');
@@ -12,7 +12,7 @@ const nameInput = formElement.querySelector('#fieldName'); // Находим п�
 const jobInput = formElement.querySelector('#fieldJob');
 
 const popupNewCard = document.querySelector('#popup-newCard'); 
-const closeNewCard = popupNewCard.querySelector('#closeNewCard');
+//const closeNewCard = popupNewCard.querySelector('#closeNewCard');
 const formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
 const fieldNameCard = formNewCard.querySelector('#fieldNameCard'); // Находим поля формы
 const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard'); // Находим поля формы
@@ -28,9 +28,9 @@ function closePopup(popup) {
   popup.classList.add('hiding');
 };
 
-buttonClosePopup.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => closePopup(popup));
+buttonsClosePopup.forEach((button) => {
+  const popup = button.closest('.popup'); // находим 1 раз ближайший к крестику попап
+  button.addEventListener('click', () => closePopup(popup)); // устанавливаем обработчик закрытия на крестик
 });
 
 // Обработчик «отправки» формы, хотя пока
@@ -73,7 +73,7 @@ const initialCards = [
 const elements = document.querySelector('.elements');
 const template = document.querySelector('.template').content.querySelector('.element');
 const imagePopup = document.querySelector('#image-popup');
-const imagePopupClose = imagePopup.querySelector('#imagePopupClose');
+//const imagePopupClose = imagePopup.querySelector('#imagePopupClose');
 const popupImg = imagePopup.querySelector('.popup__img');
 const popupSubtitle = imagePopup.querySelector('.popup__subtitle');
 
