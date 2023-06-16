@@ -1,44 +1,37 @@
-let buttonOpenEdit = document.querySelector('.profile__edit-button');
-let popup = document.querySelector('.popup');
-let buttonClosePopup = document.querySelector('.popup__close');
+const buttonOpenEdit = document.querySelector('.profile__edit-button');
+const profilePopup = document.querySelector('#popupProfile');
+const buttonClosePopup = document.querySelectorAll('.popup__close');
 
-let profile = document.querySelector('.profile');
-let profileName = profile.querySelector('.profile__name');
-let profileDescription = profile.querySelector('.profile__description');
-let buttonOpenAdd = profile.querySelector('.profile__add-button');
+const profile = document.querySelector('.profile');
+const profileName = profile.querySelector('.profile__name');
+const profileDescription = profile.querySelector('.profile__description');
+const buttonOpenAdd = profile.querySelector('.profile__add-button');
 
-let formElement = document.querySelector('.popup__form'); // Находим форму в DOM
-let nameInput = formElement.querySelector('#fieldName'); // Находим поля формы в DOM
-let jobInput = formElement.querySelector('#fieldJob');
+const formElement = document.querySelector('.popup__form'); // Находим форму в DOM
+const nameInput = formElement.querySelector('#fieldName'); // Находим поля формы в DOM
+const jobInput = formElement.querySelector('#fieldJob');
 
-let popupNewCard = document.querySelector('#popup-newCard'); 
-let closeNewCard = popupNewCard.querySelector('#closeNewCard');
-let formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
-let fieldNameCard = formNewCard.querySelector('#fieldNameCard'); // Находим поля формы
-let fieldLinkCard = formNewCard.querySelector('#fieldLinkCard'); // Находим поля формы
+const popupNewCard = document.querySelector('#popup-newCard'); 
+const closeNewCard = popupNewCard.querySelector('#closeNewCard');
+const formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
+const fieldNameCard = formNewCard.querySelector('#fieldNameCard'); // Находим поля формы
+const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard'); // Находим поля формы
 
-function showClick() {
-    popup.classList.add('popup_opened', 'appearance');
-    popup.classList.remove('hiding');
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileDescription.textContent;
-}
 
-function hideClick() {
-    popup.classList.remove('popup_opened', 'appearance');
-    popup.classList.add('hiding');
-}
+function openPopup(popup) {
+  popup.classList.add('popup_opened', 'appearance');
+  popup.classList.remove('hiding');
+};
 
-function showClickNewCard() {
-  popupNewCard.classList.add('popup_opened', 'appearance');
-  popupNewCard.classList.remove('hiding');
-}
+function closePopup(popup) {
+  popup.classList.remove('popup_opened', 'appearance');
+  popup.classList.add('hiding');
+};
 
-function hideClickNewCard() {
-  popupNewCard.classList.remove('popup_opened', 'appearance');
-  popupNewCard.classList.add('hiding');
-}
-
+buttonClosePopup.forEach((button) => {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => closePopup(popup));
+});
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -46,11 +39,8 @@ function handleFormSubmit (evt) {
     evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
     profileName.textContent = nameInput.value;
     profileDescription.textContent = jobInput.value;
-    hideClick();
-}
-
-
-
+    closePopup(profilePopup);
+};
 
 
 const initialCards = [
@@ -95,9 +85,8 @@ function handleSumbitAdd(e) {
   const newPost = {name, link};
   
   renderTodo(newPost, elements, 'prepend');
-  hideClickNewCard();
+  closePopup(popupNewCard);
 };
-
 
 
 function createTodo(card) {
@@ -110,29 +99,25 @@ function createTodo(card) {
 
   nameElement.textContent = card.name;
   imgElement.src = card.link;
+  imgElement.alt = card.name;
 
   delCard.addEventListener('click', function () {
     todoElement.remove();
-  })
+  });
 
   buttonLike.addEventListener('click', function () {
     buttonLike.classList.add('element__like_active');
-  })
+  });
 
   popupOpenImg.addEventListener('click', function () {
-    imagePopup.classList.add('popup_opened', 'appearance');
-    imagePopup.classList.remove('hiding');
+    openPopup(imagePopup);
     popupImg.src = card.link;
+    popupImg.alt = card.name;
     popupSubtitle.textContent = card.name;
-  })
-
-  imagePopupClose.addEventListener('click', function() {
-    imagePopup.classList.remove('popup_opened', 'appearance');
-    imagePopup.classList.add('hiding');
-  })
+  });
 
   return todoElement;
-}
+};
 
 function renderTodo(data,  container, position = 'append') {
   switch (position) {
@@ -151,21 +136,28 @@ function renderTodo(data,  container, position = 'append') {
     default:
       break;
   }
-}
+};
 
 initialCards.forEach(function(item) {
   renderTodo(item, elements);
-})
+});
 
+
+buttonOpenEdit.addEventListener('click', () => {
+  openPopup(profilePopup);
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDescription.textContent;
+});
 
 formElement.addEventListener('submit', handleFormSubmit); // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-buttonOpenEdit.addEventListener('click', showClick);
-buttonClosePopup.addEventListener('click', hideClick);
 
 
-buttonOpenAdd.addEventListener('click', showClickNewCard);
-closeNewCard.addEventListener('click', hideClickNewCard);
+buttonOpenAdd.addEventListener('click', () => {
+  openPopup(popupNewCard);
+  formNewCard.reset();
+});
+
 formNewCard.addEventListener('submit', handleSumbitAdd);
 
 
