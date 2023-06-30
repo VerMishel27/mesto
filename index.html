@@ -38,14 +38,16 @@
       <button class="popup__close" type="button">
         <img class="popup__close-icon" src="./images/Close-Icon.svg" alt="Закрыть">
       </button>
-      <form class="popup__form" method="post" name="changing-profile">
+      <form class="popup__form" method="post" name="changing-profile" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
         <label class="popup__label">
-          <input type="text" class="popup__field" id="fieldName" name="name" value="">
+          <input type="text" class="popup__field" id="fieldName" name="name" value="" required minlength="2" maxlength="40">
         </label>
+        <span id="name-error" class="error"></span>
         <label class="popup__label">
-          <input type="text" class="popup__field" id="fieldJob" name="job" value="">
+          <input type="text" class="popup__field popup__field_valid" id="fieldJob" name="job" value="" required minlength="2" maxlength="200">
         </label>
+        <span id="job-error" class="error"></span>
         <button class="popup__submit-button" type="submit">Сохранить</button>
       </form>
     </div>
@@ -55,14 +57,16 @@
       <button class="popup__close" id="closeNewCard" type="button">
         <img class="popup__close-icon" src="./images/Close-Icon.svg" alt="Закрыть">
       </button>
-      <form class="popup__form" id="formNewCard" method="post" name="new-card">
+      <form class="popup__form" id="formNewCard" method="post" name="new-card" novalidate>
         <h2 class="popup__title">Новое место</h2>
         <label class="popup__label">
-          <input type="text" class="popup__field" id="fieldNameCard" name="name" value="" placeholder="Название">
+          <input type="text" class="popup__field" id="fieldNameCard" name="name-card" value="" placeholder="Название" required minlength="2" maxlength="30">
         </label>
+        <span class="error" id="name-card-error"></span>
         <label class="popup__label">
-          <input type="text" class="popup__field" id="fieldLinkCard" name="link" value="" placeholder="Ссылка на картинку">
+          <input type="url" class="popup__field" id="fieldLinkCard" name="link-card" value="" placeholder="Ссылка на картинку" required>
         </label>
+        <span class="error" id="link-card-error"></span>
         <button class="popup__submit-button" id="submit-button_newCard" type="submit">Создать</button>
       </form>
     </div>
@@ -88,6 +92,7 @@
       </div>
     </article>
   </template>
+  <script src="./scripts/validate.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 </html>

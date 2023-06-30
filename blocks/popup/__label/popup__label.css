@@ -7,6 +7,6 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.popup__label:first-of-type {
-    margin-bottom: 30px;
+.popup__label:last-of-type {
+    margin-top: 30px;
 }

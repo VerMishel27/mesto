@@ -12,7 +12,6 @@ const nameInput = formElement.querySelector('#fieldName'); // Находим п�
 const jobInput = formElement.querySelector('#fieldJob');
 
 const popupNewCard = document.querySelector('#popup-newCard'); 
-//const closeNewCard = popupNewCard.querySelector('#closeNewCard');
 const formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
 const fieldNameCard = formNewCard.querySelector('#fieldNameCard'); // Находим поля формы
 const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard'); // Находим поля формы
@@ -42,6 +41,33 @@ function handleFormSubmit (evt) {
     closePopup(profilePopup);
 };
 
+
+function escClosePopup(popupElement) {  // закрытие попап на esc
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup(popupElement)
+    }
+  });
+}
+
+function overlayClosePopup(popupElement) {  // закрытие попап на оверлей
+  popupElement.addEventListener('click', (evt) => {
+    if (evt.target === popupElement) {
+      closePopup(popupElement);
+    } 
+  });
+};
+
+function popupsClose () { //нашли все попапы
+  const popups = document.querySelectorAll('.popup');
+
+  [...popups].forEach(function (popupElement) {
+    overlayClosePopup(popupElement);
+    escClosePopup(popupElement);
+  });
+}
+
+popupsClose();
 
 const initialCards = [
     {
@@ -142,11 +168,16 @@ initialCards.forEach(function(item) {
   renderTodo(item, elements);
 });
 
+function checkingForm(nameInput) {
+  const event = new Event('input');
+  nameInput.dispatchEvent(event);
+}
 
 buttonOpenEdit.addEventListener('click', () => {
   openPopup(profilePopup);
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
+  checkingForm(nameInput);
 });
 
 formElement.addEventListener('submit', handleFormSubmit); // Прикрепляем обработчик к форме:
@@ -159,6 +190,4 @@ buttonOpenAdd.addEventListener('click', () => {
 });
 
 formNewCard.addEventListener('submit', handleSumbitAdd);
-
-
 
