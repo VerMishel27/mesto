@@ -1,21 +1,13 @@
 function openPopup(popup) {
   popup.classList.add('popup_opened', 'appearance');
   popup.classList.remove('hiding');
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closePopup(popup)
-    }
-  });
+  document.addEventListener('keydown', escClosePopup);
 };
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened', 'appearance');
   popup.classList.add('hiding');
-  document.removeEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closePopup(popup)
-    }
-  });
+  document.removeEventListener('keydown', escClosePopup);
 };
 
 buttonsClosePopup.forEach((button) => {
@@ -32,6 +24,13 @@ function handleProfileFormSubmit (evt) {
     closePopup(profilePopup);
 };
 
+
+const escClosePopup = (evt) => {
+  if (evt.key === 'Escape') {
+   const openPopups = document.querySelector('.popup_opened');
+   closePopup(openPopups);
+  }
+ } 
 
 function overlayClosePopup(popup) {  // закрытие попап на оверлей
   popup.addEventListener('click', (evt) => {
