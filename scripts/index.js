@@ -1,3 +1,58 @@
+const buttonOpenEdit = document.querySelector('.profile__edit-button');
+const profilePopup = document.querySelector('#popupProfile');
+const buttonsClosePopup = document.querySelectorAll('.popup__close'); // находим все крестики проекта по универсальному селектору
+
+const profile = document.querySelector('.profile');
+const profileName = profile.querySelector('.profile__name');
+const profileDescription = profile.querySelector('.profile__description');
+const buttonOpenAdd = profile.querySelector('.profile__add-button');
+
+const formElement = document.querySelector('.popup__form'); // Находим форму в DOM
+const nameInput = formElement.querySelector('#fieldName'); // Находим поля формы в DOM
+const jobInput = formElement.querySelector('#fieldJob');
+
+const popupNewCard = document.querySelector('#popup-newCard'); 
+const formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
+const fieldNameCard = formNewCard.querySelector('#fieldNameCard'); // Находим поля формы
+const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard'); // Находим поля формы
+
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
+
+const elements = document.querySelector('.elements');
+const imagePopup = document.querySelector('#image-popup');
+const popupImg = imagePopup.querySelector('.popup__img');
+const popupSubtitle = imagePopup.querySelector('.popup__subtitle');
+
+
+import {FormValidator} from './FormValidator.js';
+import {Card} from './card.js';
+
+
 function openPopup(popup) {
   popup.classList.add('popup_opened', 'appearance');
   popup.classList.remove('hiding');
@@ -51,7 +106,6 @@ function popupsClose () { //нашли все попапы
 
 popupsClose();
 
-
 function handleSubmitAdd(e) {
   e.preventDefault();
   const link = fieldLinkCard.value;
@@ -60,55 +114,43 @@ function handleSubmitAdd(e) {
   
   renderTodo(newPost, elements, 'prepend');
   closePopup(popupNewCard);
-
-  const buttonSaveNewCard = document.querySelector('#submit-button_newCard');
-  disabledButton(buttonSaveNewCard, config);
 };
 
 
-function createCard(card) {
-  const todoElement = template.cloneNode(true);
-  const imgElement = todoElement.querySelector('.element__mask-group');
-  const nameElement = todoElement.querySelector('.element__title');
-  const delCard = todoElement.querySelector('.element__del-card');
-  const buttonLike = todoElement.querySelector('.element__like');
-  const popupOpenImg = todoElement.querySelector('.element__img-button');
 
-  nameElement.textContent = card.name;
-  imgElement.src = card.link;
-  imgElement.alt = card.name;
 
-  delCard.addEventListener('click', function () {
-    todoElement.remove();
-  });
+// Создание карточки
 
-  buttonLike.addEventListener('click', function () {
-    buttonLike.classList.add('element__like_active');
-  });
+function handleClickDelete(todoElement) {
+  todoElement.remove();
+}
 
-  popupOpenImg.addEventListener('click', function () {
-    popupImg.src = card.link;
-    popupImg.alt = card.name;
-    popupSubtitle.textContent = card.name;
-    openPopup(imagePopup);
-  });
+function handleClickEdit(dataTodo) {
+  popupImg.src = dataTodo.link;
+  popupImg.alt = dataTodo.name;
+  popupSubtitle.textContent = dataTodo.name;
+  openPopup(imagePopup);
+}
 
-  return todoElement;
-};
+function handleClickLike(todoLike) {
+  todoLike.classList.add('element__like_active');
+}
 
 function renderTodo(data,  container, position = 'append') {
+  const todoElement = new Card({data, handleClickDelete, handleClickEdit, handleClickLike}, '.template').createCard();
+  //console.log(todoElement.createCard());
   switch (position) {
     case "append":
-      container.append(createCard(data));
+      container.append(todoElement);
       break;
     case "prepend":
-      container.prepend(createCard(data));
+      container.prepend(todoElement);
       break;
     case "before":
-      container.before(createCard(data));
+      container.before(todoElement);
       break;
     case "after":
-      container.after(createCard(data));
+      container.after(todoElement);
       break;
     default:
       break;
@@ -144,3 +186,31 @@ buttonOpenAdd.addEventListener('click', () => {
 
 formNewCard.addEventListener('submit', handleSubmitAdd);
 
+
+
+
+
+// Валидация формы
+
+function setEventListener (data, config) {
+    const formsList = new FormValidator({data, config}, config.formSelector).enableValidation();
+}
+
+function enableValidation(config) {
+    const formsList = document.querySelectorAll(config.formSelector);
+
+    [...formsList].forEach(function(formElement) {
+        setEventListener(formElement, config);
+    })
+}
+
+const config = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__field',
+    submitButtonSelector: '.popup__submit-button',
+    inactiveButtonClass: 'popup__submit-button_invalid',
+    inputErrorClass: 'popup__field_invalid',
+    buttonSaveNewCard: '#submit-button_newCard',
+};
+
+enableValidation(config);
