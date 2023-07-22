@@ -1,3 +1,7 @@
+import {FormValidator} from './FormValidator.js';
+import {initialCards} from './initialCards.js';
+import {Card} from './Card.js';
+
 const buttonOpenEdit = document.querySelector('.profile__edit-button');
 const profilePopup = document.querySelector('#popupProfile');
 const buttonsClosePopup = document.querySelectorAll('.popup__close'); // находим все крестики проекта по универсальному селектору
@@ -7,51 +11,20 @@ const profileName = profile.querySelector('.profile__name');
 const profileDescription = profile.querySelector('.profile__description');
 const buttonOpenAdd = profile.querySelector('.profile__add-button');
 
-const formElement = document.querySelector('.popup__form'); // Находим форму в DOM
-const nameInput = formElement.querySelector('#fieldName'); // Находим поля формы в DOM
-const jobInput = formElement.querySelector('#fieldJob');
+const formEditProfile = document.querySelector('.popup__form'); // Находим форму в DOM
+const nameInput = formEditProfile.querySelector('#fieldName'); // Находим поля формы в DOM
+const jobInput = formEditProfile.querySelector('#fieldJob');
 
 const popupNewCard = document.querySelector('#popup-newCard'); 
 const formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
 const fieldNameCard = formNewCard.querySelector('#fieldNameCard'); // Находим поля формы
-const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard'); // Находим поля формы
-
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard');
+const buttonSaveNewCard = formNewCard.querySelector('#submit-button_newCard'); // Находим поля формы
 
 const elements = document.querySelector('.elements');
 const imagePopup = document.querySelector('#image-popup');
 const popupImg = imagePopup.querySelector('.popup__img');
 const popupSubtitle = imagePopup.querySelector('.popup__subtitle');
-
-
-import {FormValidator} from './FormValidator.js';
-import {Card} from './card.js';
-
 
 function openPopup(popup) {
   popup.classList.add('popup_opened', 'appearance');
@@ -78,7 +51,6 @@ function handleProfileFormSubmit (evt) {
     profileDescription.textContent = jobInput.value;
     closePopup(profilePopup);
 };
-
 
 const escClosePopup = (evt) => {
   if (evt.key === 'Escape') {
@@ -114,10 +86,9 @@ function handleSubmitAdd(e) {
   
   renderTodo(newPost, elements, 'prepend');
   closePopup(popupNewCard);
+  buttonSaveNewCard.disabled = 'disabled';
+  buttonSaveNewCard.classList.add(config.inactiveButtonClass);
 };
-
-
-
 
 // Создание карточки
 
@@ -175,9 +146,8 @@ function openProfile() {
 
 buttonOpenEdit.addEventListener('click', openProfile);
 
-formElement.addEventListener('submit', handleProfileFormSubmit); // Прикрепляем обработчик к форме:
+formEditProfile.addEventListener('submit', handleProfileFormSubmit); // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-
 
 buttonOpenAdd.addEventListener('click', () => {
   openPopup(popupNewCard);
@@ -185,10 +155,6 @@ buttonOpenAdd.addEventListener('click', () => {
 });
 
 formNewCard.addEventListener('submit', handleSubmitAdd);
-
-
-
-
 
 // Валидация формы
 
@@ -210,7 +176,7 @@ const config = {
     submitButtonSelector: '.popup__submit-button',
     inactiveButtonClass: 'popup__submit-button_invalid',
     inputErrorClass: 'popup__field_invalid',
-    buttonSaveNewCard: '#submit-button_newCard',
+   // buttonSaveNewCard: '#submit-button_newCard',
 };
 
 enableValidation(config);

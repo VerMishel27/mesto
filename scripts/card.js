@@ -22,6 +22,10 @@ export class Card {
         this.#handleClickLike = handleClickLike;
     };
 
+    #setEventListeners (todoElement) {
+        this.#handleClickDelete(todoElement);
+    }
+
     createCard() {
         this.#todoElement = this.#getTemplate();
         const imgElement = this.#todoElement.querySelector('.element__mask-group');
@@ -33,10 +37,8 @@ export class Card {
         nameElement.textContent = this.#data.name;
         imgElement.src = this.#data.link;
         imgElement.alt = this.#data.name;
-      
-        delCard.addEventListener('click', () => {
-            this.#handleClickDelete(this.#todoElement);
-        });
+
+        delCard.addEventListener('click', () => this.#setEventListeners(this.#todoElement));
       
         this.#buttonLike.addEventListener('click', () => this.#handleClickLike(this.#buttonLike));
       

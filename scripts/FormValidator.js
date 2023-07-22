@@ -52,7 +52,7 @@ export class FormValidator {
 
    
     enableValidation() {  
-        const buttonSaveNewCard = this.#data.querySelector(this.#config.buttonSaveNewCard);
+        // const buttonSaveNewCard = this.#data.querySelector(this.#config.buttonSaveNewCard);
        
         this.#inputList = this.#data.querySelectorAll(this.#config.inputSelector); // находим инпуты формы
         this.#sumbitButtonElement = this.#data.querySelector(this.#config.submitButtonSelector); // находим кнопки формы
@@ -67,7 +67,7 @@ export class FormValidator {
 
         this.#data.addEventListener('submit', (evt) => {
              evt.preventDefault();
-             this.#disabledButton(buttonSaveNewCard);
+             //this.#disabledButton(buttonSaveNewCard);
         });
         
 
