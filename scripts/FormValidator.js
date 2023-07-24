@@ -1,14 +1,12 @@
 export class FormValidator {
     #data;
     #config;
-    #formSelector;
     #inputList;
     #sumbitButtonElement;
  
-    constructor ({data, config}, formSelector) {
+    constructor (config, data) {
         this.#data = data;
         this.#config = config;
-        this.#formSelector = formSelector;
     };
 
     #showError(inputElement, errorElement) {
@@ -32,7 +30,7 @@ export class FormValidator {
         }
     };
 
-    #disabledButton(buttonElement) {
+    disabledButton(buttonElement) {
         buttonElement.disabled = 'disabled';
         buttonElement.classList.add(this.#config.inactiveButtonClass);
     };
@@ -44,16 +42,13 @@ export class FormValidator {
 
     #toggleButtonState(buttonElement, isActive) {
         if (!isActive) {
-            this.#disabledButton(buttonElement);
+            this.disabledButton(buttonElement);
         } else {
             this.#enableButton(buttonElement);
         }
     };
-
    
     enableValidation() {  
-        // const buttonSaveNewCard = this.#data.querySelector(this.#config.buttonSaveNewCard);
-       
         this.#inputList = this.#data.querySelectorAll(this.#config.inputSelector); // находим инпуты формы
         this.#sumbitButtonElement = this.#data.querySelector(this.#config.submitButtonSelector); // находим кнопки формы
         this.#toggleButtonState(this.#sumbitButtonElement, this.#data.checkValidity()); // блокируем кнопку   
@@ -67,12 +62,7 @@ export class FormValidator {
 
         this.#data.addEventListener('submit', (evt) => {
              evt.preventDefault();
-             //this.#disabledButton(buttonSaveNewCard);
         });
         
-
-        return this.#data
-    };
-
-    
+    }; 
 };

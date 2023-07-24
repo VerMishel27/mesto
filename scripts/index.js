@@ -1,6 +1,7 @@
-import {FormValidator} from './FormValidator.js';
-import {initialCards} from './initialCards.js';
-import {Card} from './Card.js';
+import { initialCards } from './initialCards.js';
+import { config } from './configValidForm.js';
+import { FormValidator } from './FormValidator.js';
+import { Card } from './Card.js';
 
 const buttonOpenEdit = document.querySelector('.profile__edit-button');
 const profilePopup = document.querySelector('#popupProfile');
@@ -18,13 +19,20 @@ const jobInput = formEditProfile.querySelector('#fieldJob');
 const popupNewCard = document.querySelector('#popup-newCard'); 
 const formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
 const fieldNameCard = formNewCard.querySelector('#fieldNameCard'); // Находим поля формы
-const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard');
-const buttonSaveNewCard = formNewCard.querySelector('#submit-button_newCard'); // Находим поля формы
+const fieldLinkCard = formNewCard.querySelector('#fieldLinkCard'); // Находим поля формы
+const buttonSaveNewCard = formNewCard.querySelector('#submit-button_newCard'); 
 
 const elements = document.querySelector('.elements');
 const imagePopup = document.querySelector('#image-popup');
 const popupImg = imagePopup.querySelector('.popup__img');
 const popupSubtitle = imagePopup.querySelector('.popup__subtitle');
+
+// Валидация формы
+
+const profileValid = new FormValidator(config, formEditProfile);
+profileValid.enableValidation();
+const newCardValid = new FormValidator(config, formNewCard);
+newCardValid.enableValidation();
 
 function openPopup(popup) {
   popup.classList.add('popup_opened', 'appearance');
@@ -86,8 +94,8 @@ function handleSubmitAdd(e) {
   
   renderTodo(newPost, elements, 'prepend');
   closePopup(popupNewCard);
-  buttonSaveNewCard.disabled = 'disabled';
-  buttonSaveNewCard.classList.add(config.inactiveButtonClass);
+  // buttonSaveNewCard.disabled = 'disabled';
+  // buttonSaveNewCard.classList.add(config.inactiveButtonClass);
 };
 
 // Создание карточки
@@ -149,34 +157,12 @@ buttonOpenEdit.addEventListener('click', openProfile);
 formEditProfile.addEventListener('submit', handleProfileFormSubmit); // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 
-buttonOpenAdd.addEventListener('click', () => {
+function openPopapNewCard () {
   openPopup(popupNewCard);
   formNewCard.reset();
-});
+  newCardValid.disabledButton(buttonSaveNewCard);
+}
+
+buttonOpenAdd.addEventListener('click', openPopapNewCard);
 
 formNewCard.addEventListener('submit', handleSubmitAdd);
-
-// Валидация формы
-
-function setEventListener (data, config) {
-    const formsList = new FormValidator({data, config}, config.formSelector).enableValidation();
-}
-
-function enableValidation(config) {
-    const formsList = document.querySelectorAll(config.formSelector);
-
-    [...formsList].forEach(function(formElement) {
-        setEventListener(formElement, config);
-    })
-}
-
-const config = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__field',
-    submitButtonSelector: '.popup__submit-button',
-    inactiveButtonClass: 'popup__submit-button_invalid',
-    inputErrorClass: 'popup__field_invalid',
-   // buttonSaveNewCard: '#submit-button_newCard',
-};
-
-enableValidation(config);
