@@ -29,10 +29,10 @@ const popupSubtitle = imagePopup.querySelector('.popup__subtitle');
 
 // Валидация формы
 
-const profileValid = new FormValidator(config, formEditProfile);
-profileValid.enableValidation();
-const newCardValid = new FormValidator(config, formNewCard);
-newCardValid.enableValidation();
+const validatorEditProfile = new FormValidator(config, formEditProfile);
+validatorEditProfile.enableValidation();
+const validatorAddCard = new FormValidator(config, formNewCard);
+validatorAddCard.enableValidation();
 
 function openPopup(popup) {
   popup.classList.add('popup_opened', 'appearance');
@@ -160,7 +160,7 @@ formEditProfile.addEventListener('submit', handleProfileFormSubmit); // Прик
 function openPopapNewCard () {
   openPopup(popupNewCard);
   formNewCard.reset();
-  newCardValid.disabledButton(buttonSaveNewCard);
+  validatorAddCard.disabledButton(buttonSaveNewCard);
 }
 
 buttonOpenAdd.addEventListener('click', openPopapNewCard);

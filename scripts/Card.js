@@ -1,5 +1,7 @@
 export class Card {
     #data;
+    #delCard;
+    #popupOpenImg;
     #buttonLike;
     #todoElement;
     #templateSelector;
@@ -22,27 +24,27 @@ export class Card {
         this.#handleClickLike = handleClickLike;
     };
 
-    #setEventListeners (todoElement) {
-        this.#handleClickDelete(todoElement);
+    #setEventListeners () {
+        this.#delCard.addEventListener('click', () => this.#handleClickDelete(this.#todoElement));
+      
+        this.#buttonLike.addEventListener('click', () => this.#handleClickLike(this.#buttonLike));
+      
+        this.#popupOpenImg.addEventListener('click', () =>  this.#handleClickEdit(this.#data));
     }
 
     createCard() {
         this.#todoElement = this.#getTemplate();
         const imgElement = this.#todoElement.querySelector('.element__mask-group');
         const nameElement = this.#todoElement.querySelector('.element__title');
-        const delCard = this.#todoElement.querySelector('.element__del-card');
+        this.#delCard = this.#todoElement.querySelector('.element__del-card');
         this.#buttonLike = this.#todoElement.querySelector('.element__like');
-        const popupOpenImg = this.#todoElement.querySelector('.element__img-button');
+        this.#popupOpenImg = this.#todoElement.querySelector('.element__img-button');
       
         nameElement.textContent = this.#data.name;
         imgElement.src = this.#data.link;
         imgElement.alt = this.#data.name;
 
-        delCard.addEventListener('click', () => this.#setEventListeners(this.#todoElement));
-      
-        this.#buttonLike.addEventListener('click', () => this.#handleClickLike(this.#buttonLike));
-      
-        popupOpenImg.addEventListener('click', () =>  this.#handleClickEdit(this.#data));
+        this.#setEventListeners();
       
         return this.#todoElement;
       };
