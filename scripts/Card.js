@@ -1,13 +1,11 @@
-export class Card {
+export default class Card {
     #data;
     #delCard;
     #popupOpenImg;
     #buttonLike;
     #todoElement;
     #templateSelector;
-    #handleClickDelete;
     #handleClickEdit;
-    #handleClickLike;
 
     #getTemplate() {
         return document
@@ -16,13 +14,19 @@ export class Card {
         .cloneNode(true);
     }
 
-    constructor({data, handleClickDelete, handleClickEdit, handleClickLike}, templateSelector) {
+    constructor(data, handleClickEdit, templateSelector) {
         this.#data = data;
         this.#templateSelector = templateSelector;
-        this.#handleClickDelete = handleClickDelete;
         this.#handleClickEdit = handleClickEdit;
-        this.#handleClickLike = handleClickLike;
     };
+
+    #handleClickDelete(todoElement) {
+        todoElement.remove();
+    }
+
+    #handleClickLike(todoLike) {
+        todoLike.classList.toggle('element__like_active');
+    }
 
     #setEventListeners () {
         this.#delCard.addEventListener('click', () => this.#handleClickDelete(this.#todoElement));
