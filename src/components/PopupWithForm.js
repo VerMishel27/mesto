@@ -10,8 +10,9 @@ export default class PopupWithForm extends Popup {
 
     constructor(selector, callbackSumbitForm) {
         super(selector);
+        this.#selector = document.querySelector(selector);
         this.#callbackSumbitForm = callbackSumbitForm;
-        this.#popupForm = selector.querySelector('.popup__form');
+        this.#popupForm = this.#selector.querySelector('.popup__form');
         this.#formInputList = this.#popupForm.querySelectorAll('.popup__field');
     }
 

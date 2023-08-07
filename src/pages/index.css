@@ -48,6 +48,7 @@
 @import url(../blocks/popup/__field/_invalid/popup__field_invalid.css);
 @import url(../blocks/popup/__field/_valid/popup__field_valid.css);
 @import url(../blocks/popup/__submit-button/_invalid/popup__submit-button_invalid.css);
+@import url(../blocks/popup/_overlay-img/popup_overlay-img.css);
 
 /* elements */
 

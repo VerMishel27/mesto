@@ -1,27 +1,27 @@
 export class FormValidator {
     #data;
-    #config;
+    #formElements;
     #inputList;
     #sumbitButtonElement;
  
-    constructor (config, data) {
+    constructor (formElements, data) {
         this.#data = data;
-        this.#config = config;
+        this.#formElements = formElements;
     };
 
     #showError(inputElement, errorElement) {
-        inputElement.classList.add(this.#config.inputErrorClass);
+        inputElement.classList.add(this.#formElements.inputErrorClass);
         errorElement.textContent = inputElement.validationMessage;
     };
     
     #hideError(inputElement, errorElement) {
-        inputElement.classList.remove(this.#config.inputErrorClass);
+        inputElement.classList.remove(this.#formElements.inputErrorClass);
         errorElement.textContent = inputElement.validationMessage;
     };
 
-    #cheсkInputValidity(inputElement, formElement) {
+    #cheсkInputValidity(inputElement) {
         const isInputValid = inputElement.validity.valid; // проверяем валидность инпута
-        const errorElement = formElement.querySelector(`#${inputElement.name}-error`); // находим элемент ошибки по шаблону
+        const errorElement = this.#data.querySelector(`#${inputElement.name}-error`); // находим элемент ошибки по шаблону
     
         if (!isInputValid) {
             this.#showError(inputElement, errorElement);
@@ -30,33 +30,33 @@ export class FormValidator {
         }
     };
 
-    disabledButton(buttonElement) {
-        buttonElement.disabled = 'disabled';
-        buttonElement.classList.add(this.#config.inactiveButtonClass);
+    disabledButton() {
+        this.#sumbitButtonElement.disabled = 'disabled';
+        this.#sumbitButtonElement.classList.add(this.#formElements.inactiveButtonClass);
     };
     
-    #enableButton(buttonElement) {
-        buttonElement.disabled = false;
-        buttonElement.classList.remove(this.#config.inactiveButtonClass);
+    #enableButton() {
+        this.#sumbitButtonElement.disabled = false;
+        this.#sumbitButtonElement.classList.remove(this.#formElements.inactiveButtonClass);
     };
 
-    #toggleButtonState(buttonElement, isActive) {
+    #toggleButtonState(isActive) {
         if (!isActive) {
-            this.disabledButton(buttonElement);
+            this.disabledButton(this.#sumbitButtonElement);
         } else {
-            this.#enableButton(buttonElement);
+            this.#enableButton(this.#sumbitButtonElement);
         }
     };
    
     enableValidation() {  
-        this.#inputList = this.#data.querySelectorAll(this.#config.inputSelector); // находим инпуты формы
-        this.#sumbitButtonElement = this.#data.querySelector(this.#config.submitButtonSelector); // находим кнопки формы
+        this.#inputList = this.#data.querySelectorAll(this.#formElements.inputSelector); // находим инпуты формы
+        this.#sumbitButtonElement = this.#data.querySelector(this.#formElements.submitButtonSelector); // находим кнопки формы
         this.#toggleButtonState(this.#sumbitButtonElement, this.#data.checkValidity()); // блокируем кнопку   
         
         this.#inputList.forEach((inputElement) => {
             inputElement.addEventListener('input', () => {
-                this.#toggleButtonState(this.#sumbitButtonElement, this.#data.checkValidity());
-                this.#cheсkInputValidity(inputElement, this.#data); // проверяем состояние инпута
+                this.#toggleButtonState(this.#data.checkValidity());
+                this.#cheсkInputValidity(inputElement); // проверяем состояние инпута
             });
         });
 

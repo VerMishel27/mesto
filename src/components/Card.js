@@ -20,18 +20,18 @@ export default class Card {
         this.#handleClickEdit = handleClickEdit;
     };
 
-    #handleClickDelete(todoElement) {
-        todoElement.remove();
+    #handleClickDelete() {
+        this.#todoElement.remove();
     }
 
-    #handleClickLike(todoLike) {
-        todoLike.classList.toggle('element__like_active');
+    #handleClickLike() {
+        this.#buttonLike.classList.toggle('element__like_active');
     }
 
     #setEventListeners () {
-        this.#delCard.addEventListener('click', () => this.#handleClickDelete(this.#todoElement));
+        this.#delCard.addEventListener('click', () => this.#handleClickDelete());
       
-        this.#buttonLike.addEventListener('click', () => this.#handleClickLike(this.#buttonLike));
+        this.#buttonLike.addEventListener('click', () => this.#handleClickLike());
       
         this.#popupOpenImg.addEventListener('click', () =>  this.#handleClickEdit(this.#data));
     }
