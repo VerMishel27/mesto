@@ -1,21 +1,21 @@
 export class FormValidator {
     #data;
-    #formElements;
+    #formElement;
     #inputList;
     #sumbitButtonElement;
  
-    constructor (formElements, data) {
+    constructor (formElement, data) {
         this.#data = data;
-        this.#formElements = formElements;
+        this.#formElement = formElement;
     };
 
     #showError(inputElement, errorElement) {
-        inputElement.classList.add(this.#formElements.inputErrorClass);
+        inputElement.classList.add(this.#formElement.inputErrorClass);
         errorElement.textContent = inputElement.validationMessage;
     };
     
     #hideError(inputElement, errorElement) {
-        inputElement.classList.remove(this.#formElements.inputErrorClass);
+        inputElement.classList.remove(this.#formElement.inputErrorClass);
         errorElement.textContent = inputElement.validationMessage;
     };
 
@@ -32,12 +32,12 @@ export class FormValidator {
 
     disabledButton() {
         this.#sumbitButtonElement.disabled = 'disabled';
-        this.#sumbitButtonElement.classList.add(this.#formElements.inactiveButtonClass);
+        this.#sumbitButtonElement.classList.add(this.#formElement.inactiveButtonClass);
     };
     
     #enableButton() {
         this.#sumbitButtonElement.disabled = false;
-        this.#sumbitButtonElement.classList.remove(this.#formElements.inactiveButtonClass);
+        this.#sumbitButtonElement.classList.remove(this.#formElement.inactiveButtonClass);
     };
 
     #toggleButtonState(isActive) {
@@ -49,8 +49,8 @@ export class FormValidator {
     };
    
     enableValidation() {  
-        this.#inputList = this.#data.querySelectorAll(this.#formElements.inputSelector); // находим инпуты формы
-        this.#sumbitButtonElement = this.#data.querySelector(this.#formElements.submitButtonSelector); // находим кнопки формы
+        this.#inputList = this.#data.querySelectorAll(this.#formElement.inputSelector); // находим инпуты формы
+        this.#sumbitButtonElement = this.#data.querySelector(this.#formElement.submitButtonSelector); // находим кнопки формы
         this.#toggleButtonState(this.#sumbitButtonElement, this.#data.checkValidity()); // блокируем кнопку   
         
         this.#inputList.forEach((inputElement) => {

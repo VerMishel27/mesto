@@ -4,15 +4,13 @@ export default class PopupWithForm extends Popup {
     #popupForm;
     #callbackSumbitForm;
     #formInputList;
-    #formValue;
-    #selector;
-
+    #formValue;  
 
     constructor(selector, callbackSumbitForm) {
         super(selector);
-        this.#selector = document.querySelector(selector);
+      
         this.#callbackSumbitForm = callbackSumbitForm;
-        this.#popupForm = this.#selector.querySelector('.popup__form');
+        this.#popupForm = this._popup.querySelector('.popup__form');
         this.#formInputList = this.#popupForm.querySelectorAll('.popup__field');
     }
 
@@ -21,6 +19,7 @@ export default class PopupWithForm extends Popup {
         this.#formInputList.forEach(input => {
             this.#formValue[input.name] = input.value;
         })
+        
         return this.#formValue;
     }
 

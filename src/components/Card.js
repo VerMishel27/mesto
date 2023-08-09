@@ -22,6 +22,7 @@ export default class Card {
 
     #handleClickDelete() {
         this.#todoElement.remove();
+        this.#todoElement = null;
     }
 
     #handleClickLike() {
