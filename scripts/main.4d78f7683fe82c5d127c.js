@@ -1151,16 +1151,6 @@ function openPopapNewCard() {
   validatorAddCard.disabledButton(buttonSaveNewCard);
 }
 buttonOpenAdd.addEventListener('click', openPopapNewCard);
-buttonAvatar.addEventListener('mouseover', function () {
-  buttonAvatar.style.cssText = 'opacity: 1';
-});
-buttonAvatar.addEventListener('mouseout', function () {
-  buttonAvatar.style.cssText = 'opacity: 0';
-});
-buttonAvatar.addEventListener('click', function () {
-  changeStatePopupNewAvatar.open();
-  validatorAddAvatar.disabledButton(buttonSaveNewAvatar);
-});
 Promise.all([api.dataProfile(), api.getInitialCards()]).then(function (_ref) {
   var _ref2 = _slicedToArray(_ref, 2),
     dataProfile = _ref2[0],
@@ -1170,6 +1160,16 @@ Promise.all([api.dataProfile(), api.getInitialCards()]).then(function (_ref) {
   cardsList.renderItems(dataCards, dataProfile);
 }).catch(function (err) {
   return console.log(err);
+});
+buttonAvatar.addEventListener('mouseover', function () {
+  buttonAvatar.style.cssText = 'opacity: 1';
+});
+buttonAvatar.addEventListener('mouseout', function () {
+  buttonAvatar.style.cssText = 'opacity: 0';
+});
+buttonAvatar.addEventListener('click', function () {
+  changeStatePopupNewAvatar.open();
+  validatorAddAvatar.disabledButton(buttonSaveNewAvatar);
 });
 })();
 
