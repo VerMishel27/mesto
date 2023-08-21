@@ -216,13 +216,6 @@ function openPopapNewCard () {
 
 buttonOpenAdd.addEventListener('click', openPopapNewCard);
 
-buttonAvatar.addEventListener('mouseover', () => {buttonAvatar.style.cssText = 'opacity: 1'})
-buttonAvatar.addEventListener('mouseout', () => {buttonAvatar.style.cssText = 'opacity: 0'})
-buttonAvatar.addEventListener('click', ()=> {
-    changeStatePopupNewAvatar.open();
-    validatorAddAvatar.disabledButton(buttonSaveNewAvatar)
-  })
-
 Promise.all([api.dataProfile(), api.getInitialCards()])
   .then(([dataProfile, dataCards]) => {
     userInfo.setUserInfo(dataProfile.name, dataProfile.about);
@@ -230,3 +223,10 @@ Promise.all([api.dataProfile(), api.getInitialCards()])
     cardsList.renderItems(dataCards, dataProfile)
   })
   .catch((err) => console.log(err))
+
+buttonAvatar.addEventListener('mouseover', () => {buttonAvatar.style.cssText = 'opacity: 1'})
+buttonAvatar.addEventListener('mouseout', () => {buttonAvatar.style.cssText = 'opacity: 0'})
+buttonAvatar.addEventListener('click', ()=> {
+    changeStatePopupNewAvatar.open();
+    validatorAddAvatar.disabledButton(buttonSaveNewAvatar)
+  })
