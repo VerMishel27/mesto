@@ -1095,7 +1095,6 @@ function handleClickLike(todoLike) {
 }
 function handleClickDelete(todoElement) {
   changeStatePopupDelCard.open();
-  console.log(todoElement.delCards());
   function delCard(data, button) {
     if (todoElement.delCards()) {
       button.textContent = 'Удаление...';
