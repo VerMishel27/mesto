@@ -15,11 +15,12 @@
     </header>
     <main class="content">
       <section class="profile">
-        <img src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватарка" class="profile__avatar">
+        <img src="" alt="Аватарка" class="profile__avatar">
+        <button class="profile__avatar__changing"></button>
         <div class="profile__info">
           <div class="profile__block-info">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <p class="profile__description">Исследователь океана</p>
+            <h1 class="profile__name"></h1>
+            <p class="profile__description"></p>
           </div>
           <button class="profile__edit-button" type="button">
           </button>
@@ -81,6 +82,32 @@
       <h3 class="popup__subtitle"></h3>
     </div>
   </div>
+  <div class="popup" id="popup-delCard">
+    <div class="popup__container">
+      <button class="popup__close" id="closeNewCard" type="button">
+        <img class="popup__close-icon" src="<%=require('./images/Close-Icon.svg')%>" alt="Закрыть">
+      </button>
+      <form class="popup__form" id="formDelCard" >
+        <h2 class="popup__title">Вы уверены?</h2>
+        <button class="popup__submit-button" id="submit-button_delCard" type="submit">Да</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup" id="popup-newAvatar">
+    <div class="popup__container">
+      <button class="popup__close" id="closeNewAvatar" type="button">
+        <img class="popup__close-icon" src="<%=require('./images/Close-Icon.svg')%>" alt="Закрыть">
+      </button>
+      <form class="popup__form" id="formNewAvatar" method="post" name="new-avatar" novalidate>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <label class="popup__label">
+          <input type="url" class="popup__field" id="linkAvatarProfile" name="link-avatar" value="" placeholder="Ссылка на картинку" required>
+        </label>
+        <span class="error" id="link-avatar-error"></span>
+        <button class="popup__submit-button" id="submit-button_newAvatar" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
   <template class="template">
     <article class="element">
       <button type="button" class="element__img-button">
@@ -89,7 +116,10 @@
       <button type="button" class="element__del-card"></button>
       <div class="element__description">
         <h3 class="element__title"></h3>
-        <button class="element__like" type="button"></button>
+        <div class="element__group-like">
+          <button class="element__like" type="button"></button>
+          <span class="element__number-like">0</span>
+        </div>
       </div>
     </article>
   </template>

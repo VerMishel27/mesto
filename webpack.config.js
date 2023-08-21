@@ -71,7 +71,8 @@ module.exports = (env) => {
             ? "styles/[name].[contenthash].css"
             : "styles/[name].css"
         })
-      ] 
+      ],
+      devtool: production ? false: 'eval-source-map'
     
   }
 }
