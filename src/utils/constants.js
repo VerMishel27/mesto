@@ -9,7 +9,6 @@ export const config = {
 export const elements = '.elements';
 export const profilePopup = '#popupProfile';
 export const popupDelCard = '#popup-delCard';
-export const buttonDelCard = '#submit-button_delCard';
 export const formDelCard = '#formDelCard';
 export const profileName = '.profile__name';
 export const profileDescription = '.profile__description';

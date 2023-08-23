@@ -11,22 +11,20 @@ import { profileDescription } from '../utils/constants.js';
 import { popupNewCard } from '../utils/constants.js';
 import { imagePopup } from '../utils/constants.js';
 import { popupDelCard } from '../utils/constants.js';
-//import { buttonDelCard } from '../utils/constants.js';
-import { formDelCard } from '../utils/constants.js';
 import { avatarPopupNew } from '../utils/constants.js';
+import PopupWithFormDelCard from '../components/PopupWithFormDelCard';
 import Card from '../components/Card.js';
-import Popup  from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
-//import { data } from 'autoprefixer';
+import { saveLoading } from '../utils/saveLoading.js';
 
 const buttonOpenEdit = document.querySelector('.profile__edit-button');
 
 const profile = document.querySelector('.profile');
 const profileAvatar = document.querySelector('.profile__avatar');
-const buttonAvatar = document.querySelector('.profile__avatar__changing');
+const buttonAvatar = document.querySelector('.profile__avatar-changing');
 const formAvatar = document.querySelector('#formNewAvatar')
 
 const buttonOpenAdd = profile.querySelector('.profile__add-button');
@@ -36,8 +34,9 @@ const nameInput = formEditProfile.querySelector('#fieldName'); // Находим
 const jobInput = formEditProfile.querySelector('#fieldJob');
 
 const formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
-const buttonSaveNewCard = formNewCard.querySelector('#submit-button_newCard'); 
-const buttonSaveNewAvatar = document.querySelector('#submit-button_newAvatar')
+export const buttonSaveNewCard = formNewCard.querySelector('#submit-button_newCard'); 
+const buttonSaveNewAvatar = document.querySelector('#submit-button_newAvatar');
+export const buttonDelCard = document.querySelector('#submit-button_delCard');
 
 // Запрос на сервер
 
@@ -45,11 +44,8 @@ const api = new Api(configApi);
 
 // Открытие закрытие попап
 
-const changeStatePopupProfile = new Popup(profilePopup);
-const changeStatePopupNewCard = new Popup(popupNewCard);
 const changeStatePopupImage = new PopupWithImage(imagePopup);
-const changeStatePopupDelCard = new Popup(popupDelCard);
-const changeStatePopupNewAvatar = new Popup(avatarPopupNew);
+
 
 // Валидация формы
 
@@ -74,10 +70,10 @@ function callbackSumbitFormNewCard (formData, button) {
   api.addCard(newPost)
   .then(data => {
     cardsList.addItem(creatingCard(data, data.owner), 'prepend');
+    popupNewCardForm.close();
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      popupNewCardForm.close();
       saveLoading(false, button)
     });
 }
@@ -92,9 +88,9 @@ function callbackSumbitFormprofile (formData, button) {
 
     userInfo.setUserInfo(name, about);
     api.editingProfile(dataProfile)
+      .then(() => popupProfileNew.close())
       .catch((err) => console.log(err))
       .finally(() => {
-        changeStatePopupProfile.close();
         saveLoading(false, button)
       });
 }
@@ -108,9 +104,9 @@ function callbackNewAvatar(data, button) {
 
   api.avatarProfile(avatarka)
     .then(profileAvatar.src = avatarka.avatar)
+    .then(() => avatarProfile.close())
     .catch((err) => console.log(err))
     .finally(() => {
-      changeStatePopupNewAvatar.close();
       saveLoading(false, button)
     })
 }
@@ -130,60 +126,43 @@ function creatingCard (dataCard, userInfo) {
   return todoElement;
 }
 
+// Постановка-снятие лайка
+
 function handleClickLike (todoLike) {
   if (todoLike.isLiked()) {
     api.delLike(todoLike.getId())
     .then(data => {
       todoLike.setClickLike(data)
-      //console.log('удалили')
     })
     .catch((err) => console.log(err))  
   } else {
     api.addLike(todoLike.getId())
     .then(data => {
       todoLike.setClickLike(data)
-      //console.log('поставили')
     })
     .catch((err) => console.log(err))
   }
 }
 
+// Удаление карточки
+
+const popupWithFormDelCard = new PopupWithFormDelCard(popupDelCard, null, saveLoading);
+popupWithFormDelCard.setEventListeners()
+
 function handleClickDelete(todoElement) {
-  changeStatePopupDelCard.open();
-  
-  function delCard(data, button) {   
-      if (todoElement.delCards()) {
-        button.textContent = 'Удаление...';
-        api.removeCard(todoElement.getId())
+  popupWithFormDelCard.open()
+  popupWithFormDelCard.setActionSumbit(() => {
+    api.removeCard(todoElement.getId())
           .then(() => todoElement.remove())
+          .then(() => popupWithFormDelCard.close())
           .catch((err) => console.log(err))
           .finally(() => {
-            changeStatePopupDelCard.close();
-            saveLoading(false, button)
-            button.textContent = 'Да'
+            saveLoading(false, popupWithFormDelCard.getButtonSaveCard())
       })
-      }
-  }
-    const popupDelCards = new PopupWithForm(popupDelCard, delCard, saveLoading);
-    popupDelCards.setEventListeners()
-  } 
+  })
+} 
 
-  function saveLoading(isLoading, button) {
-    if (isLoading) {
-      if (button === buttonSaveNewCard) {
-        button.textContent = 'Создание...';
-      } else {
-        button.textContent = 'Сохранение...';
-      }
-    } else {
-      if (button === buttonSaveNewCard) {
-        button.textContent = 'Создать';
-      } else {
-        button.textContent = 'Сохранить';
-      }
-     
-    }
-  }
+// Открытие попап с картинкой
 
 const handleClickEdit = (dataTodo) => {
   changeStatePopupImage.open(dataTodo);
@@ -200,21 +179,17 @@ elements
 // Слушатели открытия попап
 
 function openProfile() {
-  changeStatePopupProfile.open();
+  popupProfileNew.open();
   const dataProfile = userInfo.getUserInfo();
   nameInput.value = dataProfile.userName;
   jobInput.value = dataProfile.userJob;
   checkingForm(nameInput);
 }
 
-buttonOpenEdit.addEventListener('click', openProfile);
-
 function openPopapNewCard () {
-  changeStatePopupNewCard.open();
+  popupNewCardForm.open()
   validatorAddCard.disabledButton(buttonSaveNewCard);
 }
-
-buttonOpenAdd.addEventListener('click', openPopapNewCard);
 
 Promise.all([api.dataProfile(), api.getInitialCards()])
   .then(([dataProfile, dataCards]) => {
@@ -227,6 +202,9 @@ Promise.all([api.dataProfile(), api.getInitialCards()])
 buttonAvatar.addEventListener('mouseover', () => {buttonAvatar.style.cssText = 'opacity: 1'})
 buttonAvatar.addEventListener('mouseout', () => {buttonAvatar.style.cssText = 'opacity: 0'})
 buttonAvatar.addEventListener('click', ()=> {
-    changeStatePopupNewAvatar.open();
+    avatarProfile.open();
     validatorAddAvatar.disabledButton(buttonSaveNewAvatar)
   })
+
+  buttonOpenAdd.addEventListener('click', openPopapNewCard);
+  buttonOpenEdit.addEventListener('click', openProfile);

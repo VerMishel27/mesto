@@ -6,7 +6,7 @@ export default class PopupWithForm extends Popup {
     #formInputList;
     #formValue;  
     #buttonFormSave;
-    #saveLoading;
+    _saveLoading;
 
     constructor(selector, callbackSumbitForm, saveLoading) {
         super(selector);
@@ -15,7 +15,7 @@ export default class PopupWithForm extends Popup {
         this.#popupForm = this._popup.querySelector('.popup__form');
         this.#formInputList = this.#popupForm.querySelectorAll('.popup__field');
         this.#buttonFormSave = this._popup.querySelector('.popup__submit-button');
-        this.#saveLoading = saveLoading;
+        this._saveLoading = saveLoading;
     }
 
     #getInputValues() {
@@ -28,12 +28,16 @@ export default class PopupWithForm extends Popup {
     }
 
     setEventListeners() {
-        super.setEventListeners();
+        super._setEventListeners();
         this.#popupForm.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this.#saveLoading(true, this.#buttonFormSave)
+            this._saveLoading(true, this.#buttonFormSave)
             this.#callbackSumbitForm(this.#getInputValues(), this.#buttonFormSave);
         })
+    }
+
+    open() {
+        super.open()
     }
 
     close() {
