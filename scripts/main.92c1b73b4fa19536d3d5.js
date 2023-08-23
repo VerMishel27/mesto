@@ -477,7 +477,7 @@ var Popup = /*#__PURE__*/function () {
       this._popup.classList.add('popup_opened', 'appearance');
       this._popup.classList.remove('hiding');
       document.addEventListener('keydown', _classPrivateFieldGet(this, _handleEscClose));
-      this.setEventListeners();
+      this._setEventListeners();
     }
   }, {
     key: "close",
@@ -487,8 +487,8 @@ var Popup = /*#__PURE__*/function () {
       document.removeEventListener('keydown', _classPrivateFieldGet(this, _handleEscClose));
     }
   }, {
-    key: "setEventListeners",
-    value: function setEventListeners() {
+    key: "_setEventListeners",
+    value: function _setEventListeners() {
       var _this2 = this;
       _classPrivateFieldSet(this, _buttonClose, this._popup.querySelector('.popup__close'));
       _classPrivateFieldGet(this, _buttonClose).addEventListener('click', function () {
@@ -522,8 +522,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
@@ -534,6 +532,9 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
@@ -548,7 +549,6 @@ var _callbackSumbitForm = /*#__PURE__*/new WeakMap();
 var _formInputList = /*#__PURE__*/new WeakMap();
 var _formValue = /*#__PURE__*/new WeakMap();
 var _buttonFormSave = /*#__PURE__*/new WeakMap();
-var _saveLoading = /*#__PURE__*/new WeakMap();
 var _getInputValues = /*#__PURE__*/new WeakSet();
 var PopupWithForm = /*#__PURE__*/function (_Popup) {
   _inherits(PopupWithForm, _Popup);
@@ -578,27 +578,29 @@ var PopupWithForm = /*#__PURE__*/function (_Popup) {
       writable: true,
       value: void 0
     });
-    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _saveLoading, {
-      writable: true,
-      value: void 0
-    });
+    _defineProperty(_assertThisInitialized(_this), "_saveLoading", void 0);
     _classPrivateFieldSet(_assertThisInitialized(_this), _callbackSumbitForm, callbackSumbitForm);
     _classPrivateFieldSet(_assertThisInitialized(_this), _popupForm, _this._popup.querySelector('.popup__form'));
     _classPrivateFieldSet(_assertThisInitialized(_this), _formInputList, _classPrivateFieldGet(_assertThisInitialized(_this), _popupForm).querySelectorAll('.popup__field'));
     _classPrivateFieldSet(_assertThisInitialized(_this), _buttonFormSave, _this._popup.querySelector('.popup__submit-button'));
-    _classPrivateFieldSet(_assertThisInitialized(_this), _saveLoading, saveLoading);
+    _this._saveLoading = saveLoading;
     return _this;
   }
   _createClass(PopupWithForm, [{
     key: "setEventListeners",
     value: function setEventListeners() {
       var _this2 = this;
-      _get(_getPrototypeOf(PopupWithForm.prototype), "setEventListeners", this).call(this);
+      _get(_getPrototypeOf(PopupWithForm.prototype), "_setEventListeners", this).call(this);
       _classPrivateFieldGet(this, _popupForm).addEventListener('submit', function (evt) {
         evt.preventDefault();
-        _classPrivateFieldGet(_this2, _saveLoading).call(_this2, true, _classPrivateFieldGet(_this2, _buttonFormSave));
+        _this2._saveLoading(true, _classPrivateFieldGet(_this2, _buttonFormSave));
         _classPrivateFieldGet(_this2, _callbackSumbitForm).call(_this2, _classPrivateMethodGet(_this2, _getInputValues, _getInputValues2).call(_this2), _classPrivateFieldGet(_this2, _buttonFormSave));
       });
+    }
+  }, {
+    key: "open",
+    value: function open() {
+      _get(_getPrototypeOf(PopupWithForm.prototype), "open", this).call(this);
     }
   }, {
     key: "close",
@@ -617,6 +619,101 @@ function _getInputValues2() {
   });
   return _classPrivateFieldGet(this, _formValue);
 }
+
+
+/***/ }),
+
+/***/ "./src/components/PopupWithFormDelCard.js":
+/*!************************************************!*\
+  !*** ./src/components/PopupWithFormDelCard.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PopupWithFormDelCard)
+/* harmony export */ });
+/* harmony import */ var _Popup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Popup */ "./src/components/Popup.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+var _popupForm = /*#__PURE__*/new WeakMap();
+var _handleClickSumbit = /*#__PURE__*/new WeakMap();
+var _buttonSaveCard = /*#__PURE__*/new WeakMap();
+var _saveLoading = /*#__PURE__*/new WeakMap();
+var PopupWithFormDelCard = /*#__PURE__*/function (_Popup) {
+  _inherits(PopupWithFormDelCard, _Popup);
+  var _super = _createSuper(PopupWithFormDelCard);
+  function PopupWithFormDelCard(selector, handleClickSumbit, saveLoading) {
+    var _this;
+    _classCallCheck(this, PopupWithFormDelCard);
+    _this = _super.call(this, selector);
+    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _popupForm, {
+      writable: true,
+      value: void 0
+    });
+    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _handleClickSumbit, {
+      writable: true,
+      value: void 0
+    });
+    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _buttonSaveCard, {
+      writable: true,
+      value: void 0
+    });
+    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _saveLoading, {
+      writable: true,
+      value: void 0
+    });
+    _classPrivateFieldSet(_assertThisInitialized(_this), _popupForm, _this._popup.querySelector('.popup__form'));
+    _classPrivateFieldSet(_assertThisInitialized(_this), _handleClickSumbit, handleClickSumbit);
+    _classPrivateFieldSet(_assertThisInitialized(_this), _buttonSaveCard, _this._popup.querySelector('.popup__submit-button'));
+    _classPrivateFieldSet(_assertThisInitialized(_this), _saveLoading, saveLoading);
+    return _this;
+  }
+  _createClass(PopupWithFormDelCard, [{
+    key: "setActionSumbit",
+    value: function setActionSumbit(calback) {
+      _classPrivateFieldSet(this, _handleClickSumbit, calback);
+    }
+  }, {
+    key: "getButtonSaveCard",
+    value: function getButtonSaveCard() {
+      return _classPrivateFieldGet(this, _buttonSaveCard);
+    }
+  }, {
+    key: "setEventListeners",
+    value: function setEventListeners() {
+      var _this2 = this;
+      _get(_getPrototypeOf(PopupWithFormDelCard.prototype), "_setEventListeners", this).call(this);
+      _classPrivateFieldGet(this, _popupForm).addEventListener('submit', function (evt) {
+        evt.preventDefault();
+        _classPrivateFieldGet(_this2, _saveLoading).call(_this2, true, _classPrivateFieldGet(_this2, _buttonSaveCard));
+        _classPrivateFieldGet(_this2, _handleClickSumbit).call(_this2);
+      });
+    }
+  }]);
+  return PopupWithFormDelCard;
+}(_Popup__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
 /***/ }),
@@ -814,6 +911,240 @@ var UserInfo = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./src/pages/index.js":
+/*!****************************!*\
+  !*** ./src/pages/index.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   buttonDelCard: () => (/* binding */ buttonDelCard),
+/* harmony export */   buttonSaveNewCard: () => (/* binding */ buttonSaveNewCard)
+/* harmony export */ });
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ "./src/pages/index.css");
+/* harmony import */ var _components_Api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Api.js */ "./src/components/Api.js");
+/* harmony import */ var _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/constants.js */ "./src/utils/constants.js");
+/* harmony import */ var _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/FormValidator.js */ "./src/components/FormValidator.js");
+/* harmony import */ var _components_PopupWithFormDelCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/PopupWithFormDelCard */ "./src/components/PopupWithFormDelCard.js");
+/* harmony import */ var _components_Card_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Card.js */ "./src/components/Card.js");
+/* harmony import */ var _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/PopupWithImage.js */ "./src/components/PopupWithImage.js");
+/* harmony import */ var _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/PopupWithForm.js */ "./src/components/PopupWithForm.js");
+/* harmony import */ var _components_Section_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Section.js */ "./src/components/Section.js");
+/* harmony import */ var _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/UserInfo.js */ "./src/components/UserInfo.js");
+/* harmony import */ var _utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/saveLoading.js */ "./src/utils/saveLoading.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var buttonOpenEdit = document.querySelector('.profile__edit-button');
+var profile = document.querySelector('.profile');
+var profileAvatar = document.querySelector('.profile__avatar');
+var buttonAvatar = document.querySelector('.profile__avatar-changing');
+var formAvatar = document.querySelector('#formNewAvatar');
+var buttonOpenAdd = profile.querySelector('.profile__add-button');
+var formEditProfile = document.querySelector('.popup__form'); // Находим форму в DOM
+var nameInput = formEditProfile.querySelector('#fieldName'); // Находим поля формы в DOM
+var jobInput = formEditProfile.querySelector('#fieldJob');
+var formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
+var buttonSaveNewCard = formNewCard.querySelector('#submit-button_newCard');
+var buttonSaveNewAvatar = document.querySelector('#submit-button_newAvatar');
+var buttonDelCard = document.querySelector('#submit-button_delCard');
+
+// Запрос на сервер
+
+var api = new _components_Api_js__WEBPACK_IMPORTED_MODULE_1__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.configApi);
+
+// Открытие закрытие попап
+
+var changeStatePopupImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_6__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.imagePopup);
+
+// Валидация формы
+
+var validatorEditProfile = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__.FormValidator(_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.config, formEditProfile);
+validatorEditProfile.enableValidation();
+var validatorAddCard = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__.FormValidator(_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.config, formNewCard);
+validatorAddCard.enableValidation();
+var validatorAddAvatar = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__.FormValidator(_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.config, formAvatar);
+validatorAddAvatar.enableValidation();
+
+// Профиль пользователя
+
+var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_9__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.profileName, _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.profileDescription);
+
+// Проверка Sumbit
+
+function callbackSumbitFormNewCard(formData, button) {
+  var name = formData['name-card'];
+  var link = formData['link-card'];
+  var newPost = {
+    name: name,
+    link: link
+  };
+  api.addCard(newPost).then(function (data) {
+    cardsList.addItem(creatingCard(data, data.owner), 'prepend');
+    popupNewCardForm.close();
+  }).catch(function (err) {
+    return console.log(err);
+  }).finally(function () {
+    (0,_utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading)(false, button);
+  });
+}
+var popupNewCardForm = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupNewCard, callbackSumbitFormNewCard, _utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading);
+popupNewCardForm.setEventListeners();
+function callbackSumbitFormprofile(formData, button) {
+  var name = formData.name;
+  var about = formData.job;
+  var dataProfile = {
+    name: name,
+    about: about
+  };
+  userInfo.setUserInfo(name, about);
+  api.editingProfile(dataProfile).then(function () {
+    return popupProfileNew.close();
+  }).catch(function (err) {
+    return console.log(err);
+  }).finally(function () {
+    (0,_utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading)(false, button);
+  });
+}
+var popupProfileNew = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.profilePopup, callbackSumbitFormprofile, _utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading);
+popupProfileNew.setEventListeners();
+function callbackNewAvatar(data, button) {
+  var avatar = data['link-avatar'];
+  var avatarka = {
+    avatar: avatar
+  };
+  api.avatarProfile(avatarka).then(profileAvatar.src = avatarka.avatar).then(function () {
+    return avatarProfile.close();
+  }).catch(function (err) {
+    return console.log(err);
+  }).finally(function () {
+    (0,_utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading)(false, button);
+  });
+}
+var avatarProfile = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.avatarPopupNew, callbackNewAvatar, _utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading);
+avatarProfile.setEventListeners();
+function checkingForm(nameInput) {
+  var event = new Event('input');
+  nameInput.dispatchEvent(event);
+}
+
+// Создание карточки
+
+function creatingCard(dataCard, userInfo) {
+  var todoElement = new _components_Card_js__WEBPACK_IMPORTED_MODULE_5__["default"](dataCard, handleClickEdit, handleClickDelete, handleClickLike, userInfo, '.template').createCard();
+  return todoElement;
+}
+
+// Постановка-снятие лайка
+
+function handleClickLike(todoLike) {
+  if (todoLike.isLiked()) {
+    api.delLike(todoLike.getId()).then(function (data) {
+      todoLike.setClickLike(data);
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  } else {
+    api.addLike(todoLike.getId()).then(function (data) {
+      todoLike.setClickLike(data);
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  }
+}
+
+// Удаление карточки
+
+var popupWithFormDelCard = new _components_PopupWithFormDelCard__WEBPACK_IMPORTED_MODULE_4__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupDelCard, null, _utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading);
+popupWithFormDelCard.setEventListeners();
+function handleClickDelete(todoElement) {
+  popupWithFormDelCard.open();
+  popupWithFormDelCard.setActionSumbit(function () {
+    api.removeCard(todoElement.getId()).then(function () {
+      return todoElement.remove();
+    }).then(function () {
+      return popupWithFormDelCard.close();
+    }).catch(function (err) {
+      return console.log(err);
+    }).finally(function () {
+      (0,_utils_saveLoading_js__WEBPACK_IMPORTED_MODULE_10__.saveLoading)(false, popupWithFormDelCard.getButtonSaveCard());
+    });
+  });
+}
+
+// Открытие попап с картинкой
+
+var handleClickEdit = function handleClickEdit(dataTodo) {
+  changeStatePopupImage.open(dataTodo);
+};
+var cardsList = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
+  renderer: function renderer(initialItem, userData) {
+    cardsList.addItem(creatingCard(initialItem, userData));
+  }
+}, _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.elements);
+
+// Слушатели открытия попап
+
+function openProfile() {
+  popupProfileNew.open();
+  var dataProfile = userInfo.getUserInfo();
+  nameInput.value = dataProfile.userName;
+  jobInput.value = dataProfile.userJob;
+  checkingForm(nameInput);
+}
+function openPopapNewCard() {
+  popupNewCardForm.open();
+  validatorAddCard.disabledButton(buttonSaveNewCard);
+}
+Promise.all([api.dataProfile(), api.getInitialCards()]).then(function (_ref) {
+  var _ref2 = _slicedToArray(_ref, 2),
+    dataProfile = _ref2[0],
+    dataCards = _ref2[1];
+  userInfo.setUserInfo(dataProfile.name, dataProfile.about);
+  profileAvatar.src = dataProfile.avatar;
+  cardsList.renderItems(dataCards, dataProfile);
+}).catch(function (err) {
+  return console.log(err);
+});
+buttonAvatar.addEventListener('mouseover', function () {
+  buttonAvatar.style.cssText = 'opacity: 1';
+});
+buttonAvatar.addEventListener('mouseout', function () {
+  buttonAvatar.style.cssText = 'opacity: 0';
+});
+buttonAvatar.addEventListener('click', function () {
+  avatarProfile.open();
+  validatorAddAvatar.disabledButton(buttonSaveNewAvatar);
+});
+buttonOpenAdd.addEventListener('click', openPopapNewCard);
+buttonOpenEdit.addEventListener('click', openProfile);
+
+/***/ }),
+
 /***/ "./src/utils/constants.js":
 /*!********************************!*\
   !*** ./src/utils/constants.js ***!
@@ -823,7 +1154,6 @@ var UserInfo = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   avatarPopupNew: () => (/* binding */ avatarPopupNew),
-/* harmony export */   buttonDelCard: () => (/* binding */ buttonDelCard),
 /* harmony export */   config: () => (/* binding */ config),
 /* harmony export */   configApi: () => (/* binding */ configApi),
 /* harmony export */   elements: () => (/* binding */ elements),
@@ -845,7 +1175,6 @@ var config = {
 var elements = '.elements';
 var profilePopup = '#popupProfile';
 var popupDelCard = '#popup-delCard';
-var buttonDelCard = '#submit-button_delCard';
 var formDelCard = '#formDelCard';
 var profileName = '.profile__name';
 var profileDescription = '.profile__description';
@@ -859,6 +1188,41 @@ var configApi = {
     "Content-Type": "application/json"
   }
 };
+
+/***/ }),
+
+/***/ "./src/utils/saveLoading.js":
+/*!**********************************!*\
+  !*** ./src/utils/saveLoading.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   saveLoading: () => (/* binding */ saveLoading)
+/* harmony export */ });
+/* harmony import */ var _pages_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../pages/index.js */ "./src/pages/index.js");
+
+
+function saveLoading(isLoading, button) {
+  if (isLoading) {
+    if (button === _pages_index_js__WEBPACK_IMPORTED_MODULE_0__.buttonSaveNewCard) {
+      button.textContent = 'Создание...';
+    } else if (button === _pages_index_js__WEBPACK_IMPORTED_MODULE_0__.buttonDelCard) {
+      button.textContent = 'Удаление...';
+    } else {
+      button.textContent = 'Сохранение...';
+    }
+  } else {
+    if (button === _pages_index_js__WEBPACK_IMPORTED_MODULE_0__.buttonSaveNewCard) {
+      button.textContent = 'Создать';
+    } else if (button === _pages_index_js__WEBPACK_IMPORTED_MODULE_0__.buttonDelCard) {
+      button.textContent = 'Да';
+    } else {
+      button.textContent = 'Сохранить';
+    }
+  }
+}
 
 /***/ }),
 
@@ -930,248 +1294,11 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-/*!****************************!*\
-  !*** ./src/pages/index.js ***!
-  \****************************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ "./src/pages/index.css");
-/* harmony import */ var _components_Api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Api.js */ "./src/components/Api.js");
-/* harmony import */ var _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/constants.js */ "./src/utils/constants.js");
-/* harmony import */ var _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/FormValidator.js */ "./src/components/FormValidator.js");
-/* harmony import */ var _components_Card_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Card.js */ "./src/components/Card.js");
-/* harmony import */ var _components_Popup_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Popup.js */ "./src/components/Popup.js");
-/* harmony import */ var _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/PopupWithImage.js */ "./src/components/PopupWithImage.js");
-/* harmony import */ var _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/PopupWithForm.js */ "./src/components/PopupWithForm.js");
-/* harmony import */ var _components_Section_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Section.js */ "./src/components/Section.js");
-/* harmony import */ var _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/UserInfo.js */ "./src/components/UserInfo.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-
-
-
-
-
-//import { buttonDelCard } from '../utils/constants.js';
-
-
-
-
-
-
-
-
-//import { data } from 'autoprefixer';
-
-var buttonOpenEdit = document.querySelector('.profile__edit-button');
-var profile = document.querySelector('.profile');
-var profileAvatar = document.querySelector('.profile__avatar');
-var buttonAvatar = document.querySelector('.profile__avatar__changing');
-var formAvatar = document.querySelector('#formNewAvatar');
-var buttonOpenAdd = profile.querySelector('.profile__add-button');
-var formEditProfile = document.querySelector('.popup__form'); // Находим форму в DOM
-var nameInput = formEditProfile.querySelector('#fieldName'); // Находим поля формы в DOM
-var jobInput = formEditProfile.querySelector('#fieldJob');
-var formNewCard = document.querySelector('#formNewCard'); // Находим форму создания карточки в DOM
-var buttonSaveNewCard = formNewCard.querySelector('#submit-button_newCard');
-var buttonSaveNewAvatar = document.querySelector('#submit-button_newAvatar');
-
-// Запрос на сервер
-
-var api = new _components_Api_js__WEBPACK_IMPORTED_MODULE_1__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.configApi);
-
-// Открытие закрытие попап
-
-var changeStatePopupProfile = new _components_Popup_js__WEBPACK_IMPORTED_MODULE_5__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.profilePopup);
-var changeStatePopupNewCard = new _components_Popup_js__WEBPACK_IMPORTED_MODULE_5__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupNewCard);
-var changeStatePopupImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_6__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.imagePopup);
-var changeStatePopupDelCard = new _components_Popup_js__WEBPACK_IMPORTED_MODULE_5__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupDelCard);
-var changeStatePopupNewAvatar = new _components_Popup_js__WEBPACK_IMPORTED_MODULE_5__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.avatarPopupNew);
-
-// Валидация формы
-
-var validatorEditProfile = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__.FormValidator(_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.config, formEditProfile);
-validatorEditProfile.enableValidation();
-var validatorAddCard = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__.FormValidator(_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.config, formNewCard);
-validatorAddCard.enableValidation();
-var validatorAddAvatar = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_3__.FormValidator(_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.config, formAvatar);
-validatorAddAvatar.enableValidation();
-
-// Профиль пользователя
-
-var userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_9__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.profileName, _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.profileDescription);
-
-// Проверка Sumbit
-
-function callbackSumbitFormNewCard(formData, button) {
-  var name = formData['name-card'];
-  var link = formData['link-card'];
-  var newPost = {
-    name: name,
-    link: link
-  };
-  api.addCard(newPost).then(function (data) {
-    cardsList.addItem(creatingCard(data, data.owner), 'prepend');
-  }).catch(function (err) {
-    return console.log(err);
-  }).finally(function () {
-    popupNewCardForm.close();
-    saveLoading(false, button);
-  });
-}
-var popupNewCardForm = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupNewCard, callbackSumbitFormNewCard, saveLoading);
-popupNewCardForm.setEventListeners();
-function callbackSumbitFormprofile(formData, button) {
-  var name = formData.name;
-  var about = formData.job;
-  var dataProfile = {
-    name: name,
-    about: about
-  };
-  userInfo.setUserInfo(name, about);
-  api.editingProfile(dataProfile).catch(function (err) {
-    return console.log(err);
-  }).finally(function () {
-    changeStatePopupProfile.close();
-    saveLoading(false, button);
-  });
-}
-var popupProfileNew = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.profilePopup, callbackSumbitFormprofile, saveLoading);
-popupProfileNew.setEventListeners();
-function callbackNewAvatar(data, button) {
-  var avatar = data['link-avatar'];
-  var avatarka = {
-    avatar: avatar
-  };
-  api.avatarProfile(avatarka).then(profileAvatar.src = avatarka.avatar).catch(function (err) {
-    return console.log(err);
-  }).finally(function () {
-    changeStatePopupNewAvatar.close();
-    saveLoading(false, button);
-  });
-}
-var avatarProfile = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.avatarPopupNew, callbackNewAvatar, saveLoading);
-avatarProfile.setEventListeners();
-function checkingForm(nameInput) {
-  var event = new Event('input');
-  nameInput.dispatchEvent(event);
-}
-
-// Создание карточки
-
-function creatingCard(dataCard, userInfo) {
-  var todoElement = new _components_Card_js__WEBPACK_IMPORTED_MODULE_4__["default"](dataCard, handleClickEdit, handleClickDelete, handleClickLike, userInfo, '.template').createCard();
-  return todoElement;
-}
-function handleClickLike(todoLike) {
-  if (todoLike.isLiked()) {
-    api.delLike(todoLike.getId()).then(function (data) {
-      todoLike.setClickLike(data);
-      //console.log('удалили')
-    }).catch(function (err) {
-      return console.log(err);
-    });
-  } else {
-    api.addLike(todoLike.getId()).then(function (data) {
-      todoLike.setClickLike(data);
-      //console.log('поставили')
-    }).catch(function (err) {
-      return console.log(err);
-    });
-  }
-}
-function handleClickDelete(todoElement) {
-  changeStatePopupDelCard.open();
-  function delCard(data, button) {
-    if (todoElement.delCards()) {
-      button.textContent = 'Удаление...';
-      api.removeCard(todoElement.getId()).then(function () {
-        return todoElement.remove();
-      }).catch(function (err) {
-        return console.log(err);
-      }).finally(function () {
-        changeStatePopupDelCard.close();
-        saveLoading(false, button);
-        button.textContent = 'Да';
-      });
-    }
-  }
-  var popupDelCards = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.popupDelCard, delCard, saveLoading);
-  popupDelCards.setEventListeners();
-}
-function saveLoading(isLoading, button) {
-  if (isLoading) {
-    if (button === buttonSaveNewCard) {
-      button.textContent = 'Создание...';
-    } else {
-      button.textContent = 'Сохранение...';
-    }
-  } else {
-    if (button === buttonSaveNewCard) {
-      button.textContent = 'Создать';
-    } else {
-      button.textContent = 'Сохранить';
-    }
-  }
-}
-var handleClickEdit = function handleClickEdit(dataTodo) {
-  changeStatePopupImage.open(dataTodo);
-};
-var cardsList = new _components_Section_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
-  renderer: function renderer(initialItem, userData) {
-    cardsList.addItem(creatingCard(initialItem, userData));
-  }
-}, _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.elements);
-
-// Слушатели открытия попап
-
-function openProfile() {
-  changeStatePopupProfile.open();
-  var dataProfile = userInfo.getUserInfo();
-  nameInput.value = dataProfile.userName;
-  jobInput.value = dataProfile.userJob;
-  checkingForm(nameInput);
-}
-buttonOpenEdit.addEventListener('click', openProfile);
-function openPopapNewCard() {
-  changeStatePopupNewCard.open();
-  validatorAddCard.disabledButton(buttonSaveNewCard);
-}
-buttonOpenAdd.addEventListener('click', openPopapNewCard);
-Promise.all([api.dataProfile(), api.getInitialCards()]).then(function (_ref) {
-  var _ref2 = _slicedToArray(_ref, 2),
-    dataProfile = _ref2[0],
-    dataCards = _ref2[1];
-  userInfo.setUserInfo(dataProfile.name, dataProfile.about);
-  profileAvatar.src = dataProfile.avatar;
-  cardsList.renderItems(dataCards, dataProfile);
-}).catch(function (err) {
-  return console.log(err);
-});
-buttonAvatar.addEventListener('mouseover', function () {
-  buttonAvatar.style.cssText = 'opacity: 1';
-});
-buttonAvatar.addEventListener('mouseout', function () {
-  buttonAvatar.style.cssText = 'opacity: 0';
-});
-buttonAvatar.addEventListener('click', function () {
-  changeStatePopupNewAvatar.open();
-  validatorAddAvatar.disabledButton(buttonSaveNewAvatar);
-});
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/pages/index.js");
+/******/ 	
 /******/ })()
 ;
