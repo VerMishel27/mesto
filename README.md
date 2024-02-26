@@ -9,7 +9,6 @@
 
 # Стэк 
 
-- React
 - JS
 - CSS
 - HTML
