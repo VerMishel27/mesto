@@ -19,6 +19,7 @@
 - Git
 
 **Работа popup:**
+
 Открытие popup с картинкой:
 ![2024-02-26_14-59-54](https://github.com/VerMishel27/mesto/assets/120491019/9ed72d59-7a19-42e9-9bb4-2b9844b02002)
 
